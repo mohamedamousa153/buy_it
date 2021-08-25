@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/screens/loginScreen.dart';
@@ -11,22 +10,18 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo ',
+      title: 'Buy It',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
-     initialRoute: LoginScreen.id,
+      initialRoute: LoginScreen.id,
       routes: {
-        LoginScreen.id : (context)=>LoginScreen(),
-        SignupScreen.id : (context)=>SignupScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+        SignupScreen.id: (context) => SignupScreen(),
       },
     );
   }
 }
-
-

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../constans.dart';
 
 class CustomTextField extends StatefulWidget {
-  String hint;
-  IconData icon;
+  final String hint;
+  final IconData icon;
 
   final Function(String?)?  onClick ;
   CustomTextField({
