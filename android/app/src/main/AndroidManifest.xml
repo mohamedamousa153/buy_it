@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shop">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="shop"
+       android:usesCleartextTraffic="true"
+
+    android:label="shop"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
