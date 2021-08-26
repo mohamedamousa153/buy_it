@@ -1,9 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/Provider/adminMode.dart';
+import 'package:shop/Provider/modelHud.dart';
 import 'package:shop/constans.dart';
 import 'package:shop/screens/signup_screen.dart';
 import 'package:shop/services/auth.dart';
 import 'package:shop/widgets/customTextField.dart';
+
+import 'admin/adminhome.dart';
+import 'user/homePage.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'LoginScreen';
@@ -14,7 +21,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-
+  bool isAdmin = false;
+  final _auth = Auth();
+  final adminpassword = "admin1234";
   String? _email, _password;
 
   @override
@@ -22,100 +31,171 @@ class _LoginScreenState extends State<LoginScreen> {
     double heigth = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: KMainColor,
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 70),
-              child: Container(
-                height: MediaQuery.of(context).size.height * .20,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Image(
-                      image: AssetImage('images/icons/buyicon.png'),
-                    ),
-                    Positioned(
-                      bottom: 10,
-                      child: Text(
-                        'Buy it',
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontFamily: 'Pacifico',
+      body: ModalProgressHUD(
+        inAsyncCall: Provider.of<ModelHUd>(context).isLoading,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 70),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * .20,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Image(
+                        image: AssetImage('images/icons/buyicon.png'),
+                      ),
+                      Positioned(
+                        bottom: 10,
+                        child: Text(
+                          'Buy it',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontFamily: 'Pacifico',
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: heigth * .13),
-            CustomTextField(
-              hint: 'Enter your email',
-              icon: Icons.email,
-              onClick: (value) {
-                _email = value;
-              },
-            ),
-            SizedBox(height: heigth * .03),
-            CustomTextField(
-              hint: 'Enter your password',
-              icon: Icons.lock,
-              onClick: (value) {
-                _password = value;
-              },
-            ),
-            SizedBox(height: heigth * .08),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 120.0),
-              child: MaterialButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    Auth().signIn(_email!, _password!);
-
-                    // print(_email);
-                    // print(_password);
-                  }
-                },
-                color: Colors.black,
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
-              ),
-            ),
-            SizedBox(height: heigth * .05),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Don\'t have account ? ',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, SignupScreen.id);
+              ),
+              SizedBox(height: heigth * .13),
+              CustomTextField(
+                hint: 'Enter your email',
+                icon: Icons.email,
+                onClick: (value) {
+                  _email = value;
+                },
+              ),
+              SizedBox(height: heigth * .03),
+              CustomTextField(
+                hint: 'Enter your password',
+                icon: Icons.lock,
+                onClick: (value) {
+                  _password = value;
+                },
+              ),
+              SizedBox(height: heigth * .08),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 120.0),
+                child: MaterialButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  onPressed: () {
+                    _validate(context);
                   },
+                  color: Colors.black,
                   child: Text(
-                    'Signup',
+                    'Login',
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ),
+                ),
+              ),
+              SizedBox(height: heigth * .05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Don\'t have account ? ',
                     style: TextStyle(
+                      color: Colors.white,
                       fontSize: 16,
                     ),
                   ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, SignupScreen.id);
+                    },
+                    child: Text(
+                      'Signup',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () {
+                        Provider.of<AdminMode>(context, listen: false)
+                            .changeIsAdmin(true);
+                      },
+                      child: Text(
+                        'I’m an admin',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Provider.of<AdminMode>(context).isAdmin
+                                ? KMainColor
+                                : Colors.white),
+                      ),
+                    )),
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () {
+                        Provider.of<AdminMode>(context, listen: false)
+                            .changeIsAdmin(false);
+                      },
+                      child: Text(
+                        'I’m an user',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Provider.of<AdminMode>(context).isAdmin
+                                ? Colors.white
+                                : KMainColor),
+                      ),
+                    )),
+                  ],
                 ),
-              ],
-            )
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  void _validate(BuildContext context) async {
+    final modelhud = Provider.of<ModelHUd>(context, listen: false);
+    modelhud.changeisLoading(true);
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      if (Provider.of<AdminMode>(context, listen: false).isAdmin) {
+        if (_password == adminpassword) {
+          try {
+            await _auth.signIn(_email!, _password!);
+            Navigator.pushNamed(context, AdminHome.id);
+          } catch (e) {
+            modelhud.changeisLoading(false);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(e.toString()),
+            ));
+          }
+        } else {
+          modelhud.changeisLoading(false);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Something went wrong"),
+          ));
+        }
+      } else {
+        try {
+          await _auth.signIn(_email!, _password!);
+          Navigator.pushNamed(context, HomePage.id);
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(e.toString()),
+          ));
+        }
+      }
+    }
+    modelhud.changeisLoading(false);
   }
 }

@@ -6,9 +6,9 @@ class CustomTextField extends StatefulWidget {
   final String hint;
   final IconData icon;
 
-  final Function(String?)?  onClick ;
+  final Function(String?)? onClick;
   CustomTextField({
-     this.onClick,
+    this.onClick,
     required this.hint,
     required this.icon,
   });
