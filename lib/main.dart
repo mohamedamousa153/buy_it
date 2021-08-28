@@ -7,9 +7,13 @@ import 'package:shop/screens/admin/addProduct.dart';
 import 'package:shop/screens/admin/adminhome.dart';
 import 'package:shop/screens/admin/editProduct.dart';
 import 'package:shop/screens/admin/manageProduct.dart';
+import 'package:shop/screens/user/cartScreen.dart';
 import 'package:shop/screens/user/homePage.dart';
 import 'package:shop/screens/loginScreen.dart';
 import 'package:shop/screens/signup_screen.dart';
+
+import 'Provider/cardItem.dart';
+import 'screens/user/productInfo.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +29,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ModelHUd>(
           create: (context) => ModelHUd(),
         ),
+        ChangeNotifierProvider<CartItem>(
+          create: (context) => CartItem(),
+        ),
         ChangeNotifierProvider<AdminMode>(
           create: (context) => AdminMode(),
         )
@@ -37,13 +44,15 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: LoginScreen.id,
         routes: {
+          CartScreen.id: (context) => CartScreen(),
+          ProductInfo.id: (context) => ProductInfo(),
           LoginScreen.id: (context) => LoginScreen(),
           SignupScreen.id: (context) => SignupScreen(),
           HomePage.id: (context) => HomePage(),
           AdminHome.id: (context) => AdminHome(),
           AddProduct.id: (context) => AddProduct(),
           ManageProduct.id: (context) => ManageProduct(),
-          EditProduct.id:(context)=>EditProduct(),
+          EditProduct.id: (context) => EditProduct(),
         },
       ),
     );

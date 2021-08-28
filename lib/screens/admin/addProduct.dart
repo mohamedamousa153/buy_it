@@ -14,6 +14,7 @@ class _AddProductState extends State<AddProduct> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final _store = Store();
   late String _name, _price, _description, _category, _imageLocation;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

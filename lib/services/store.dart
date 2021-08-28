@@ -22,7 +22,11 @@ class Store {
     _firestore.collection(kProductsCollection).doc(documentId).delete();
   }
 
-  editProbuct(data,documentId) {
+  editProbuct(data, documentId) {
     _firestore.collection(kProductsCollection).doc(documentId).update(data);
+  }
+
+  Stream<QuerySnapshot> loadProducts() {
+    return _firestore.collection(kProductsCollection).snapshots();
   }
 }

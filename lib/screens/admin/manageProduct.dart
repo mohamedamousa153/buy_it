@@ -4,6 +4,7 @@ import 'package:shop/constans.dart';
 import 'package:shop/models/product.dart';
 import 'package:shop/screens/admin/editProduct.dart';
 import 'package:shop/services/store.dart';
+import 'package:shop/widgets/custom_menu.dart';
 
 class ManageProduct extends StatefulWidget {
   static String id = 'ManageProduct';
@@ -54,8 +55,8 @@ class _ManageProductState extends State<ManageProduct> {
                       items: <PopupMenuEntry>[
                         MyPopupMenuItem(
                           onClick: () {
-                            Navigator.pushNamed(context, EditProduct.id,arguments: products[index]);
-
+                            Navigator.pushNamed(context, EditProduct.id,
+                                arguments: products[index]);
                           },
                           child: Text('Edit'),
                         ),
@@ -117,24 +118,5 @@ class _ManageProductState extends State<ManageProduct> {
         },
       ),
     );
-  }
-}
-
-class MyPopupMenuItem<T> extends PopupMenuItem<T> {
-  final Widget child;
-  final Function onClick;
-  MyPopupMenuItem({required this.child, required this.onClick})
-      : super(child: child);
-  @override
-  PopupMenuItemState<T, PopupMenuItem<T>> createState() {
-    return MyPopupMenuItemState();
-  }
-}
-
-class MyPopupMenuItemState<T, PopMenuItem>
-    extends PopupMenuItemState<T, MyPopupMenuItem<T>> {
-  @override
-  void handleTap() {
-    widget.onClick();
   }
 }

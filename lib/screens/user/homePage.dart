@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// ignore: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/models/product.dart';
+import 'package:shop/screens/user/productInfo.dart';
 import 'package:shop/services/auth.dart';
 import 'package:shop/services/store.dart';
+import 'package:shop/widgets/productsView.dart';
 
 import '../../constans.dart';
+import '../../functions.dart';
+import 'cartScreen.dart';
 
 class HomePage extends StatefulWidget {
   static String id = 'HomePage';
@@ -21,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   int _tabBarIndex = 0;
   int _bottomBarIndex = 0;
   final _store = Store();
+  List<Product> _products = [];
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +100,9 @@ class _HomePageState extends State<HomePage> {
             body: TabBarView(
               children: [
                 jacketView(),
-                Text('test'),
-                Text('test'),
-                Text('test'),
+                productsView(kTrousers, _products),
+                productsView(kTshert, _products),
+                productsView(kShoes, _products),
               ],
             ),
           ),
@@ -110,12 +116,14 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Discoer'.toUpperCase(),
+                    'Discover'.toUpperCase(),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  Icon(
-                    Icons.shopping_cart,
-                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, CartScreen.id);
+                      },
+                      child: Icon(Icons.shopping_cart))
                 ],
               ),
             ),
@@ -132,7 +140,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   getCurrentUser() {
+    // ignore: unused_element
     Future<String> inputData() async {
+      // ignore: await_only_futures
       final User user = await _auth.currentUser!;
       final uid = user.uid;
       return uid;
@@ -145,17 +155,26 @@ class _HomePageState extends State<HomePage> {
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
           List<Product> products = [];
-          for (var doc in snapshot.data!.docs) {
-            var data = doc.data() as Map;
-            print(data);
-            products.add(Product(
-                pID: doc.id,
-                pName: data[kProductName],
-                pCategory: data[kProductCategory],
-                pDescription: data[kProductDescription],
-                pLocation: data[kProductLocation],
-                pPrice: data[kProductPrice]));
+          try {
+            for (var doc in snapshot.data!.docs) {
+              var data = doc.data() as Map;
+              if (doc[kProductCategory] == kJackets) {}
+              print(data);
+              products.add(Product(
+                  pID: doc.id,
+                  pName: data[kProductName],
+                  pCategory: data[kProductCategory],
+                  pDescription: data[kProductDescription],
+                  pLocation: data[kProductLocation],
+                  pPrice: data[kProductPrice]));
+            }
+          } catch (e) {
+            print(e);
           }
+
+          _products = [...products];
+          products.clear();
+          products = getProductByCategory(kJackets, _products);
           return GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -164,6 +183,10 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, ProductInfo.id,
+                      arguments: products[index]);
+                },
                 child: Stack(
                   children: [
                     Positioned.fill(
