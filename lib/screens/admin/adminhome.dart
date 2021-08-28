@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shop/constans.dart';
 import 'package:shop/screens/admin/addProduct.dart';
-
-import 'editProduct.dart';
+import 'package:shop/screens/admin/editProduct.dart';
+import 'package:shop/screens/admin/manageProduct.dart';
 
 class AdminHome extends StatefulWidget {
   static String id = 'AdminHome';
@@ -31,7 +31,7 @@ class _AdminHomeState extends State<AdminHome> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, EditProduct.id);
+                Navigator.pushNamed(context, ManageProduct.id);
               },
               child: Text('Edit Product'),
             ),

@@ -8,3 +8,4 @@ const kProductLocation = 'productLocation';
 const kProductCategory = 'productCategory';
 const KMainColor = Color(0xFFFFC12F);
 const KSecondaryColor = Color(0xFFFFE6AC);
+const kUnActiveColor = Color(0xFFC1BDB8);

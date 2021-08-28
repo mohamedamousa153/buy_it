@@ -98,13 +98,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     modelhud.changeisLoading(true);
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      //
-                      // print(_name);
-                      // print(_email);
-                      // print(_password);
+                      
+                      print(_name);
+                      print(_email);
+                      print(_password);
                       try {
                         
-                        await _auth.signUp(_email!, _password!);
+                        await _auth.signUp(_email!.trim(), _password!.trim());
                         modelhud.changeisLoading(false);
                         Navigator.pushNamed(context, HomePage.id);
                       } on PlatformException catch (e) {

@@ -19,73 +19,80 @@ class _AddProductState extends State<AddProduct> {
     return Scaffold(
       body: Form(
         key: _globalKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CustomTextField(
-              hint: 'Product name',
-              icon: Icons.shopping_bag,
-              onClick: (value) {
-                _name = value!;
-              },
-            ),
+        child: ListView(
+          children: [
             SizedBox(
-              height: 10,
+              height: MediaQuery.of(context).size.height * 0.2,
             ),
-            CustomTextField(
-              hint: 'Product price',
-              icon: Icons.shopping_bag,
-              onClick: (value) {
-                _price = value!;
-              },
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CustomTextField(
+                  hint: 'Product name',
+                  icon: Icons.shopping_bag,
+                  onClick: (value) {
+                    _name = value!;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  hint: 'Product price',
+                  icon: Icons.shopping_bag,
+                  onClick: (value) {
+                    _price = value!;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  hint: 'Product category',
+                  icon: Icons.shopping_bag,
+                  onClick: (value) {
+                    _category = value!;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  hint: 'Product description',
+                  icon: Icons.shopping_bag,
+                  onClick: (value) {
+                    _description = value!;
+                  },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CustomTextField(
+                  hint: 'Product Location',
+                  icon: Icons.shopping_bag,
+                  onClick: (value) {
+                    _imageLocation = value!;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_globalKey.currentState!.validate()) {
+                      _globalKey.currentState!.save();
+                      _store.addProduct(Product(
+                          pName: _name,
+                          pCategory: _category,
+                          pDescription: _description,
+                          pLocation: _imageLocation,
+                          pPrice: _price));
+                    }
+                  },
+                  child: Text('Add Product'),
+                )
+              ],
             ),
-            SizedBox(
-              height: 10,
-            ),
-            CustomTextField(
-              hint: 'Product category',
-              icon: Icons.shopping_bag,
-              onClick: (value) {
-                _category = value!;
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CustomTextField(
-              hint: 'Product description',
-              icon: Icons.shopping_bag,
-              onClick: (value) {
-                _description = value!;
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            CustomTextField(
-              hint: 'Product Location',
-              icon: Icons.shopping_bag,
-              onClick: (value) {
-                _imageLocation = value!;
-              },
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_globalKey.currentState!.validate()) {
-                  _globalKey.currentState!.save();
-                  _store.addProduct(Product(
-                      pName: _name,
-                      pCategory: _category,
-                      pDescription: _description,
-                      pLocation: _imageLocation,
-                      pPrice: _price));
-                }
-              },
-              child: Text('Add Product'),
-            )
           ],
         ),
       ),

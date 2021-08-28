@@ -4,12 +4,13 @@ class Product {
   String pLocation;
   String pDescription;
   String pCategory;
+  String? pID;
 
-  Product(  
-      {
-      required this.pName,
-      required this.pCategory,
-      required this.pDescription,
-      required this.pLocation,
-      required this.pPrice});
+  Product(
+      { this.pID,
+       required this.pName,
+       required this.pCategory,
+       required this.pDescription,
+       required this.pLocation,
+       required this.pPrice});
 }

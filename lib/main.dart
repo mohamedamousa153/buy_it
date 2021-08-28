@@ -6,6 +6,7 @@ import 'package:shop/Provider/modelHud.dart';
 import 'package:shop/screens/admin/addProduct.dart';
 import 'package:shop/screens/admin/adminhome.dart';
 import 'package:shop/screens/admin/editProduct.dart';
+import 'package:shop/screens/admin/manageProduct.dart';
 import 'package:shop/screens/user/homePage.dart';
 import 'package:shop/screens/loginScreen.dart';
 import 'package:shop/screens/signup_screen.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Buy It',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -40,7 +42,8 @@ class MyApp extends StatelessWidget {
           HomePage.id: (context) => HomePage(),
           AdminHome.id: (context) => AdminHome(),
           AddProduct.id: (context) => AddProduct(),
-          EditProduct.id: (context) => EditProduct(),
+          ManageProduct.id: (context) => ManageProduct(),
+          EditProduct.id:(context)=>EditProduct(),
         },
       ),
     );
