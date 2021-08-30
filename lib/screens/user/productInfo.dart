@@ -72,7 +72,7 @@ class _ProductInfoState extends State<ProductInfo> {
                             height: 10,
                           ),
                           Text(
-                            product.pDescription,
+                            product.pDescription!,
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w800),
                           ),

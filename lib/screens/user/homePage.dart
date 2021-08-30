@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 // ignore: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/models/product.dart';
+import 'package:shop/screens/loginScreen.dart';
 import 'package:shop/screens/user/productInfo.dart';
 import 'package:shop/services/auth.dart';
 import 'package:shop/services/store.dart';
@@ -21,6 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final currentPage = "HomePage";
   final auth = Auth();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   int _tabBarIndex = 0;
@@ -39,20 +42,24 @@ class _HomePageState extends State<HomePage> {
               type: BottomNavigationBarType.fixed,
               currentIndex: _bottomBarIndex,
               fixedColor: KMainColor,
-              onTap: (value) {
+              onTap: (value) async {
+                if (value == 2) {
+                  SharedPreferences sharedPreferences =
+                      await SharedPreferences.getInstance();
+                  sharedPreferences.clear();
+                  await _auth.signOut();
+                  Navigator.popAndPushNamed(context, LoginScreen.id);
+                }
                 setState(() {
                   _bottomBarIndex = value;
                 });
               },
               items: [
+                BottomNavigationBarItem(label: 'home', icon: Icon(Icons.home)),
                 BottomNavigationBarItem(
-                    label: 'test', icon: Icon(Icons.person)),
+                    label: 'Favorite', icon: Icon(Icons.favorite)),
                 BottomNavigationBarItem(
-                    label: 'test', icon: Icon(Icons.person)),
-                BottomNavigationBarItem(
-                    label: 'test', icon: Icon(Icons.person)),
-                BottomNavigationBarItem(
-                    label: 'test', icon: Icon(Icons.person)),
+                    label: 'Sign Out', icon: Icon(Icons.close)),
               ],
             ),
             appBar: AppBar(

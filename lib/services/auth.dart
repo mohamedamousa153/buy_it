@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Auth {
@@ -20,5 +19,7 @@ class Auth {
     return authResult;
   }
 
-
+  Future<void> signOut() {
+    return _auth.signOut();
+  }
 }

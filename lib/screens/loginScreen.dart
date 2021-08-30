@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import "package:flutter/services.dart";
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/Provider/adminMode.dart';
 import 'package:shop/Provider/modelHud.dart';
 import 'package:shop/constans.dart';
@@ -27,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isAdmin = false;
   final _auth = Auth();
   final adminpassword = "admin1234";
+  bool? isRememberMe = false;
   String? _email, _password;
 
   @override
@@ -64,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: heigth * .13),
+              SizedBox(height: heigth * .1),
               CustomTextField(
                 hint: 'Enter your email',
                 icon: Icons.email,
@@ -80,7 +82,30 @@ class _LoginScreenState extends State<LoginScreen> {
                   _password = value;
                 },
               ),
-              SizedBox(height: heigth * .08),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    Theme(
+                      data: ThemeData(unselectedWidgetColor: Colors.white),
+                      child: Checkbox(
+                          checkColor: KSecondaryColor,
+                          activeColor: KMainColor,
+                          value: isRememberMe,
+                          onChanged: (value) {
+                            setState(() {
+                              isRememberMe = value;
+                            });
+                          }),
+                    ),
+                    Text(
+                      "Remember Me",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: heigth * .05),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 120.0),
                 child: MaterialButton(
@@ -88,6 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   onPressed: () {
+                    if (isRememberMe == true) {
+                      keepUserLoginIn();
+                    }
                     _validate(context);
                   },
                   color: Colors.black,
@@ -202,5 +230,11 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
     modelhud.changeisLoading(false);
+  }
+
+  void keepUserLoginIn() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setBool(kIsRememberMe, true);
   }
 }
