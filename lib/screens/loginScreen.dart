@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import "package:flutter/services.dart";
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/Provider/adminMode.dart';
@@ -173,10 +176,10 @@ class _LoginScreenState extends State<LoginScreen> {
           try {
             await _auth.signIn(_email!, _password!);
             Navigator.pushNamed(context, AdminHome.id);
-          } catch (e) {
+          } on FirebaseException catch (e) {
             modelhud.changeisLoading(false);
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(e.toString()),
+              content: Text(e.message!),
             ));
           }
         } else {
@@ -189,9 +192,10 @@ class _LoginScreenState extends State<LoginScreen> {
         try {
           await _auth.signIn(_email!, _password!);
           Navigator.pushNamed(context, HomePage.id);
-        } catch (e) {
+        } on FirebaseException catch (e) {
+          modelhud.changeisLoading(false);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(e.toString()),
+            content: Text(e.message!),
           ));
         }
       }
