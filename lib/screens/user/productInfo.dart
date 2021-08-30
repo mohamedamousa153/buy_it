@@ -159,8 +159,9 @@ class _ProductInfoState extends State<ProductInfo> {
 
   void addToCart(BuildContext context, Product product) {
     CartItem cartItem = Provider.of<CartItem>(context, listen: false);
+    product.pQuantity = _quantity;
     bool exist = false;
-    var productsInCart = CartItem().products;
+    var productsInCart = cartItem.products;
     product.pQuantity = _quantity;
 
     //TODO does not working in the loop
