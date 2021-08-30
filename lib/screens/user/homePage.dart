@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
             for (var doc in snapshot.data!.docs) {
               var data = doc.data() as Map;
               if (doc[kProductCategory] == kJackets) {}
-              print(data);
+              // print(data);
               products.add(Product(
                   pID: doc.id,
                   pName: data[kProductName],

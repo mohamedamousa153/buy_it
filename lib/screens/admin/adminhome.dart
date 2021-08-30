@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/constans.dart';
 import 'package:shop/screens/admin/addProduct.dart';
 import 'package:shop/screens/admin/manageProduct.dart';
+import 'package:shop/screens/admin/odersScreen.dart';
 
 class AdminHome extends StatefulWidget {
   static String id = 'AdminHome';
@@ -35,7 +36,9 @@ class _AdminHomeState extends State<AdminHome> {
               child: Text('Edit Product'),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, OrdersScreen.id);
+              },
               child: Text('View Orders'),
             ),
           ],

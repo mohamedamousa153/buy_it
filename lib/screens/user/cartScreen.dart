@@ -7,6 +7,7 @@ import 'package:shop/Provider/cardItem.dart';
 import 'package:shop/models/product.dart';
 
 import 'package:shop/screens/user/productInfo.dart';
+import 'package:shop/services/store.dart';
 
 import 'package:shop/widgets/custom_menu.dart';
 
@@ -138,7 +139,9 @@ class CartScreen extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(10),
                         topLeft: Radius.circular(10))),
-                onPressed: () {},
+                onPressed: () {
+                  showCustomDialog(products, context);
+                },
                 child: Text('Order'.toUpperCase()),
                 color: KMainColor,
               ),
@@ -178,11 +181,47 @@ class CartScreen extends StatelessWidget {
         ]);
   }
 
-  getTotallPrice(List<Product> products) {
+  getTotalPrice(List<Product> products) {
     var price = 0;
     for (var product in products) {
       price += (product.pQuantity! * int.parse(product.pPrice));
     }
     return price;
+  }
+
+  void showCustomDialog(List<Product> products, context) async {
+    int price = getTotalPrice(products);
+    String address = '';
+    AlertDialog alertDialog = AlertDialog(
+      actions: [
+        MaterialButton(
+          onPressed: () {
+            try {
+              Store _store = Store();
+              _store.storeOrders(
+                  {kProductPrice: price, kProductLocation: address}, products);
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Ordered Successfully")));
+              Navigator.pop(context);
+            } catch (ex) {
+              print(ex);
+            }
+          },
+          child: Text("Confirm"),
+        )
+      ],
+      title: Text("Total Price = \$ $price"),
+      content: TextField(
+        onChanged: (value) {
+          address = value;
+        },
+        decoration: InputDecoration(hintText: "Enter Your Address"),
+      ),
+    );
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return alertDialog;
+        });
   }
 }

@@ -173,6 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _formKey.currentState!.save();
       if (Provider.of<AdminMode>(context, listen: false).isAdmin) {
         if (_password == adminpassword) {
+          print(adminpassword);
           try {
             await _auth.signIn(_email!, _password!);
             Navigator.pushNamed(context, AdminHome.id);

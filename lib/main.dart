@@ -7,6 +7,7 @@ import 'package:shop/screens/admin/addProduct.dart';
 import 'package:shop/screens/admin/adminhome.dart';
 import 'package:shop/screens/admin/editProduct.dart';
 import 'package:shop/screens/admin/manageProduct.dart';
+import 'package:shop/screens/admin/odersScreen.dart';
 import 'package:shop/screens/user/cartScreen.dart';
 import 'package:shop/screens/user/homePage.dart';
 import 'package:shop/screens/loginScreen.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: LoginScreen.id,
         routes: {
+          OrdersScreen.id: (context) => OrdersScreen(),
           CartScreen.id: (context) => CartScreen(),
           ProductInfo.id: (context) => ProductInfo(),
           LoginScreen.id: (context) => LoginScreen(),

@@ -14,3 +14,7 @@ const kTrousers = 'trousers';
 const kTshert = 't-shirts';
 const kShoes = 'shoes';
 const kProductQuantity = 'Quantity';
+const kOrders = "orders";
+const kOrderDetails = 'orderDetails';
+const kTotalPrice = "totalPrice";
+const kAddress = "address";
