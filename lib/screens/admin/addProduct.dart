@@ -89,6 +89,18 @@ class _AddProductState extends State<AddProduct> {
                           pLocation: _imageLocation,
                           pPrice: _price));
                     }
+                    showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          content: const Text('Successfully Added'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
                   },
                   child: Text('Add Product'),
                 )

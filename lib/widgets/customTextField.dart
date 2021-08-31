@@ -5,12 +5,14 @@ import '../constans.dart';
 class CustomTextField extends StatefulWidget {
   final String hint;
   final IconData icon;
+  final String? initialvalue ;
 
   final Function(String?)? onClick;
   CustomTextField({
     this.onClick,
     required this.hint,
     required this.icon,
+    this.initialvalue,
   });
 
   @override
@@ -34,6 +36,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: TextFormField(
+        initialValue: widget.initialvalue,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return _errorMessage(widget.hint);

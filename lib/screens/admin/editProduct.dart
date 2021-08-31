@@ -39,6 +39,7 @@ class _EditProductState extends State<EditProduct> {
                   onClick: (value) {
                     _name = value!;
                   },
+                  initialvalue: product.pName,
                 ),
                 SizedBox(
                   height: 10,
@@ -49,6 +50,7 @@ class _EditProductState extends State<EditProduct> {
                   onClick: (value) {
                     _price = value!;
                   },
+                  initialvalue: product.pPrice,
                 ),
                 SizedBox(
                   height: 10,
@@ -59,6 +61,7 @@ class _EditProductState extends State<EditProduct> {
                   onClick: (value) {
                     _category = value!;
                   },
+                  initialvalue: product.pCategory,
                 ),
                 SizedBox(
                   height: 10,
@@ -69,6 +72,7 @@ class _EditProductState extends State<EditProduct> {
                   onClick: (value) {
                     _description = value!;
                   },
+                  initialvalue: product.pDescription,
                 ),
                 SizedBox(
                   height: 10,
@@ -79,6 +83,7 @@ class _EditProductState extends State<EditProduct> {
                   onClick: (value) {
                     _imageLocation = value!;
                   },
+                  initialvalue: product.pLocation,
                 ),
                 SizedBox(
                   height: 20,
@@ -98,6 +103,18 @@ class _EditProductState extends State<EditProduct> {
                           
                       ), product.pID);
                     }
+                    showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          content: const Text('Successfully Updated'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
                   },
                   child: Text('Update Product'),
                 )
